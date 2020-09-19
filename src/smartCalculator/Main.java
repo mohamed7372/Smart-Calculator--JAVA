@@ -9,13 +9,28 @@ public class Main {
 	public static void main(String[] args) {
 		String input = sc.nextLine();
 		while(!input.equals("/exit")) {
-			if (!input.trim().equals("")) {
+			if (input.equals("/help"))
+				System.out.println("The program calculates the sum of numbers");
+			else if (!input.trim().equals("")) {
 				String inNbr[] = input.split(" ");
-				int sum = inNbr.length == 1 ? Integer.parseInt(inNbr[0]) : (Integer.parseInt(inNbr[0]) + Integer.parseInt(inNbr[1]));
-				System.out.println(sum);
+				System.out.println(sum(arrStrToInt(inNbr)));
 			}
 			input = sc.nextLine();
 		}
 		System.out.println("Bye!");
+	}
+	
+	static int sum(int ...n) {
+		int s = 0;
+		for (int i : n) {
+			s += i;
+		}
+		return s;
+	}
+	static int[] arrStrToInt(String[] arr) {
+		int[] newArr = new int[arr.length];
+		for (int i = 0; i < newArr.length; i++) 
+			newArr[i] = Integer.parseInt(arr[i]);
+		return newArr;
 	}
 }
