@@ -1,5 +1,6 @@
 package smartCalculator;
 
+import java.math.BigInteger;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
@@ -11,10 +12,10 @@ import java.util.regex.Pattern;
 public class Main {
 
 	public static final Scanner sc = new Scanner(System.in);
-	public static Map<String,Integer> variables;
+	public static Map<String,BigInteger> variables;
 	
 	public static void main(String[] args) {
-		variables = new HashMap<String, Integer>();
+		variables = new HashMap<String, BigInteger>();
 		String input = sc.nextLine();
 		
 		while(!input.equals("/exit")) {
@@ -62,7 +63,7 @@ public class Main {
 				if(arr[2].matches("[a-zA-Z]+") && variables.get(arr[2]) != null)
 					variables.put(arr[0], variables.get(arr[2]));
 				else if (arr[2].matches("[-]{0,1}\\d+"))
-					variables.put(arr[0], Integer.valueOf(arr[2]));
+					variables.put(arr[0], new BigInteger(arr[2]));
 				else
 					System.out.println("Invalid assignment");
 			}
@@ -132,29 +133,29 @@ public class Main {
 	// convert postfixe to answer
 	static String answer(String s) {
 		String str[] = s.trim().split(" ");
-		Deque<Integer> nbr = new ArrayDeque<Integer>();
-		int a,b;
+		Deque<BigInteger> nbr = new ArrayDeque<BigInteger>();
+		BigInteger a,b;
 		for (int i = 0; i < str.length; i++) {
 			if(str[i].matches("\\w+")) {
 				if(recupereValue(str[i]).equals("Unknown variable"))
 					return "Unknown variable";
-				nbr.offerFirst(Integer.valueOf(recupereValue(str[i])));
+				nbr.offerFirst(new BigInteger(recupereValue(str[i])));
 			}
 			else {
 				a = nbr.pollFirst();
 				b = nbr.pollFirst();
 				switch (str[i]) {
 				case "+":
-					nbr.offerFirst(a + b);
+					nbr.offerFirst(a.add(b));
 					break;
 				case "-": 
-					nbr.offerFirst(b - a);
+					nbr.offerFirst(b.subtract(a));
 					break;
 				case "*": 
-					nbr.offerFirst(a * b);
+					nbr.offerFirst(a.multiply(b));
 					break;
 				case "/": 
-					nbr.offerFirst(b / a);
+					nbr.offerFirst(b.divide(a));
 					break;	
 				default:
 					System.out.println("Error operation");
